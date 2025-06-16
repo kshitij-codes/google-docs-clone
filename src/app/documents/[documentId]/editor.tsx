@@ -12,7 +12,14 @@ import TableCell from '@tiptap/extension-table-cell';
 import ImageResize from 'tiptap-extension-resize-image'
 import { useEditorStore } from '@/store/use-editor-store';
 import Underline from '@tiptap/extension-underline';
-
+import FontFamily from '@tiptap/extension-font-family'
+import TextStyle from '@tiptap/extension-text-style';
+import {Color} from '@tiptap/extension-color';
+import Highlight from '@tiptap/extension-highlight';
+import Link from '@tiptap/extension-link';
+import TextAlign from "@tiptap/extension-text-align";
+import { FontSizeExtension } from '@/extensions/font-size';
+import { LineHeightExtension } from '@/extensions/line-height';
 
 const Editor = () => {
 
@@ -51,6 +58,26 @@ const Editor = () => {
     },
     extensions: [
         StarterKit,
+        LineHeightExtension.configure({
+          types: ["heading", "paragraph"],
+          defaultLineHeight: "Normal"
+        }),
+        FontSizeExtension,
+        TextAlign.configure({
+            types: ['heading', 'paragraph'],
+            defaultAlignment: 'left',
+        }),
+        Link.configure({
+          openOnClick: false,
+          autolink: true,
+          defaultProtocol: 'https',
+        }),
+        Highlight.configure({
+            multicolor: true,
+        }),
+        Color,
+        TextStyle,
+        FontFamily,
         Underline,
         Image,
         ImageResize,
