@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import {Inter} from "next/font/google";
 import {NuqsAdapter} from "nuqs/adapters/next/app";
-
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
 import "./globals.css";
 import { ConvexClientProvider } from "@/components/convex-client-provider";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -26,6 +28,7 @@ export default function RootLayout({
       >
         <NuqsAdapter>
           <ConvexClientProvider>
+            <Toaster />
             {children}
           </ConvexClientProvider>
         </NuqsAdapter>
