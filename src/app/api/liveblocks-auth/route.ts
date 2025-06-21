@@ -22,17 +22,14 @@ export async function POST(req: Request) {
     if(!document) {
         return new Response("Unauthorized", {status: 401})
     }
-    console.log("document.ownerId :", document.ownerId)
-    console.log("document.organizationId :", document.organizationId)
-    console.log("user.id :", user.id)
-    console.log("sessionClaims.org_id", sessionClaims)
+
     const isOwner = document.ownerId === user.id
     const orgId = typeof sessionClaims.o === "object" && sessionClaims.o !== null && "id" in sessionClaims.o
         ? (sessionClaims.o as { id: string }).id
         : undefined;
     const isOrganizationMember = !!(document.organizationId && document.organizationId === orgId)
+
     if(!isOwner && !isOrganizationMember) {
-        console.log("2")
         return new Response("Unauthorized", {status: 401})
     }
 

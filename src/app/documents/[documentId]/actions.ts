@@ -14,18 +14,13 @@ export async function getUsers() {
     const {sessionClaims} = await auth()
     const clerk = await clerkClient()
 
-    if (!sessionClaims || typeof sessionClaims.o !== "object" || sessionClaims.o === null || !("id" in sessionClaims.o)) {
-        throw new Error("Invalid session claims or organization ID not found.");
-    }
-
     const response = await clerk.users.getUserList({
-        organizationId: [(sessionClaims.o as { id: string }).id as string]
+        organizationId: [(sessionClaims?.o as { id: string }).id as string]
     })
     const users = response.data.map((user) => ({
         id: user.id,
         name: user.fullName ?? user.primaryEmailAddress?.emailAddress ?? "Anonymous",
         avatar: user.imageUrl
     }))
-    console.log({users})
     return users
 }

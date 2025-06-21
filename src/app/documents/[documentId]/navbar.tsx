@@ -13,8 +13,13 @@ import { useEditorStore } from "@/store/use-editor-store"
 import { OrganizationSwitcher, UserButton } from "@clerk/nextjs"
 import { Avatars } from "./avatars"
 import { Inbox } from "./inbox"
+import { Doc } from "../../../../convex/_generated/dataModel"
 
-export const Navbar = () => {
+interface NavbarProps {
+    data: Doc<"documents">;
+}
+
+export const Navbar = ({data}: NavbarProps) => {
     const {editor} = useEditorStore()
     const insertTable = ({rows, cols}: {rows: number, cols: number}) => {
         editor?.chain().focus().insertTable({rows, cols, withHeaderRow: false}).run()
@@ -34,7 +39,7 @@ export const Navbar = () => {
         const blob = new Blob([JSON.stringify(content)], {
             type: "application/json"
         })
-        onDownload(blob, "document.json") //TODO: Use document name
+        onDownload(blob, `${data.title}.json`)
     }
 
     const onSaveHTML = () => {
@@ -43,7 +48,7 @@ export const Navbar = () => {
         const blob = new Blob([content], {
             type: "text/html"
             })
-            onDownload(blob, "document.html")
+            onDownload(blob, `${data.title}.html`)
     }
 
     const onSaveText = () => {
@@ -52,7 +57,7 @@ export const Navbar = () => {
         const blob = new Blob([content], {
             type: "text/plain" //TODO: Use document name
             })
-            onDownload(blob, "document.txt")
+            onDownload(blob, `${data.title}.txt`)
     }
 
     return (
@@ -62,7 +67,7 @@ export const Navbar = () => {
                     <Image src="/logo.svg" alt="Logo" width={36} height={36} />
                 </Link>
                 <div className="flex flex-col">
-                    <DocumentInput />
+                    <DocumentInput title={document.title} id={data._id} />
                     <div className="flex">
                         <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
                             <MenubarMenu>
