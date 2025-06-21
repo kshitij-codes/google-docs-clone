@@ -1,7 +1,7 @@
 "use client"
 import React from 'react'
-import Editor from './editor'
-import Toolbar from './toolbar'
+import {Editor} from './editor'
+import {Toolbar} from './toolbar'
 import { Navbar } from './navbar'
 import { Room } from './room'
 import { Preloaded, usePreloadedQuery } from 'convex/react'
@@ -13,6 +13,7 @@ interface DocumentProps {
 
 export const Document = ({preloadedDocument}: DocumentProps) => {
     const document = usePreloadedQuery(preloadedDocument)
+    
   return (
     <Room>
       <div>
@@ -21,7 +22,7 @@ export const Document = ({preloadedDocument}: DocumentProps) => {
           <Toolbar />
         </div>
         <div className='pt-[114px] print:pt-0'>
-            <Editor />
+            <Editor initialContent={document.initialContent} />
         </div>
       </div>
     </Room>

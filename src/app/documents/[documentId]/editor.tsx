@@ -24,14 +24,22 @@ import { Ruler } from './ruler';
 import {useLiveblocksExtension} from "@liveblocks/react-tiptap"
 import { Threads } from './threads';
 import { useStorage } from '@liveblocks/react';
+import { LEFT_MARGIN_DEFAULT, RIGHT_MARGIN_DEFAULT } from '@/constants/margins';
 
+interface EditorProps {
+  initialContent?: string | undefined;
 
-const Editor = () => {
-  const liveblocks = useLiveblocksExtension()
+}
+
+export const Editor = ({initialContent}: EditorProps) => {
+  const liveblocks = useLiveblocksExtension({
+    initialContent,
+    offlineSupport_experimental: true
+  })
 
   const { setEditor } = useEditorStore();
-  const leftMargin = useStorage((root) => root.leftMargin)
-  const rightMargin = useStorage((root) => root.rightMargin)
+  const leftMargin = useStorage((root) => root.leftMargin) ?? LEFT_MARGIN_DEFAULT
+  const rightMargin = useStorage((root) => root.rightMargin) ?? RIGHT_MARGIN_DEFAULT
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -61,7 +69,7 @@ const Editor = () => {
     },
     editorProps: {
       attributes: { 
-        style: `padding-left: ${leftMargin ?? 56}px; padding-right: ${rightMargin ?? 56}px;`,
+        style: `padding-left: ${leftMargin}px; padding-right: ${rightMargin}px;`,
         class: 'focus:outline-none print:border-0 border bg-white border=[#C7C7C7] flex flex-col min-h-[1054px] w-[816px] pt-14 pb-10 cursor-text',
       },
     },
@@ -115,5 +123,3 @@ const Editor = () => {
     </div>
   )
 }
-
-export default Editor

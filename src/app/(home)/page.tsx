@@ -3,7 +3,7 @@
 import { Navbar } from './navbar';
 import { TemplatesGallery } from './templates-gallery';
 import { api } from '../../../convex/_generated/api';
-import { usePaginatedQuery, useQuery } from 'convex/react';
+import { usePaginatedQuery } from 'convex/react';
 import { DocumentsTable } from './documents-table';
 import { useSearchParam } from '@/hooks/use-search-param';
 

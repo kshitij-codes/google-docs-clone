@@ -3,6 +3,7 @@ import { Id } from '../../../../convex/_generated/dataModel'
 import { Document } from './document'
 import {preloadQuery} from "convex/nextjs"
 import { api } from '../../../../convex/_generated/api'
+import { redirect } from 'next/navigation'
 
 interface DocumentIdPageProps {
   params: Promise<{ documentId: Id<"documents">}>
@@ -15,18 +16,16 @@ const DocumentIdPage = async ({params}: DocumentIdPageProps) => {
 
   if(!token) throw new Error("Unauthorized")
 
-  const preloadedDocument = await preloadQuery(
-    api.documents.getById,
-    {id: documentId},
-    {token}
-  )
-  if(!preloadedDocument) {
-    throw new Error("Document not found")
+  try {
+    const preloadedDocument = await preloadQuery(
+      api.documents.getById,
+      { id: documentId },
+      { token }
+    )
+    return <Document preloadedDocument={preloadedDocument} />
+  } catch {
+    redirect("/")
   }
-
-  return (
-   <Document preloadedDocument={preloadedDocument} />
-  )
 }
 
 export default DocumentIdPage

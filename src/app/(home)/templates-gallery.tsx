@@ -45,8 +45,7 @@ export const TemplatesGallery = () => {
                                 )}>
                                     <button 
                                         disabled={isCreating} 
-                                        // TODO: Add proper initial content
-                                        onClick={()=> onTemplateClick(template.label, "")}
+                                        onClick={()=> onTemplateClick(template.label, template.InitialContent)}
                                         style={{
                                             backgroundImage: `url(${template.imageUrl})`,
                                             backgroundSize: "cover",
@@ -66,7 +65,6 @@ export const TemplatesGallery = () => {
                     <CarouselNext />
                 </Carousel>
             </div>
-            Templates Gallery
         </div>
     )
 }
